@@ -18,9 +18,7 @@ exports.academiesWorth = function (req,res){
 
 
 exports.playersWorth = function (req,res){
-    Player.find({},(err,playerTotalAverage)=>{
-        res.setHeader('Debug',
-         'playersWorth func was reached');}).then((playerDoc)=>{
+    Player.find({}).then((playerDoc)=>{
             if(!playerDoc){
                 return res.status(404).send();
             }
