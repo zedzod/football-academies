@@ -16,9 +16,14 @@ exports.academiesWorth = function (req,res){
     });
 }
 
-
 exports.playersWorth = function (req,res){
-    Player.find({}).then((playerDoc)=>{
+    Player.aggregate([
+        {$group: {
+            _id: "$playerAverage",
+            my_winner: {$push: "$$ROOT"}
+        }},
+        {$sort:{_id:-1}},
+        {$limit:20}  ]).then((playerDoc)=>{
             if(!playerDoc){
                 return res.status(404).send();
             }
