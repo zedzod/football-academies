@@ -18,11 +18,16 @@ exports.academiesWorth = function (req,res){
 
 
 exports.playersWorth = function (req,res){
-    Player.find({},(err,playerTotalAverage) =>{
-        res.setHeader('Debug', 'playersWorth func was reached');
-        if(err) console.log(`query error: ${err}`);
-        res.status(400).send(playerTotalAverage);
-    });
+    Player.find({},(err,playerTotalAverage)=>{
+        res.setHeader('Debug',
+         'playersWorth func was reached');}).then((playerDoc)=>{
+            if(!playerDoc){
+                return res.status(404).send();
+            }
+            res.status(200).json(playerDoc);
+        }).catch((e) => {
+            res.status(400).send(e);
+        });
 }
 
 exports.leaguesWorth = function (req,res){
@@ -47,4 +52,3 @@ exports.leaguesWorth = function (req,res){
         res.status(400).send(e);
     });
 }
-
